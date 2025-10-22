@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Endemias - Secretaria de Saúde Matinhos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0D7377;
+            --secondary: #14FFEC;
+            --accent: #00A896;
+            --dark: #1A535C;
+            --light: #F7FFF7;
+            --danger: #E63946;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header Top Bar */
+        .top-bar {
+            background: var(--dark);
+            color: white;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-text h1 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .header-text p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            color: white;
+        }
+
+        .btn-instagram:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-denuncia {
+            background: var(--danger);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-denuncia:hover {
+            background: #d62828;
+            transform: translateY(-2px);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3); }
+            50% { box-shadow: 0 4px 25px rgba(230, 57, 70, 0.6); }
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav li {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            background: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--secondary);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 80%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Quick Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark);
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* News Section */
+        .news-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .news-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .news-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .news-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .news-date {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, var(--danger), #d62828);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(230, 57, 70, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '⚠️';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.1;
+            top: -50px;
+            right: -50px;
+        }
+
+        .cta-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-banner p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-large {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--danger);
+        }
+
+        .btn-white:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .info-card-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .info-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Image Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .contact-item:hover .contact-icon {
+            color: white;
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .action-buttons {
+                justify-content: center;
+            }
+
+            .hero-banner h2 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                padding: 0.8rem 1rem;
+            }
+
+            .cta-banner h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Accessibility */
+        .btn:focus, a:focus {
+            outline: 3px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div>
+                <i class="fas fa-phone"></i> 0800-3971-610 (Ramal 839) | 
+                <i class="fas fa-envelope"></i> endemiasmatinhos@gmail.com
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/secsaudematinhos" target="_blank" title="Instagram Secretaria de Saúde">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/prefsmatinhos" target="_blank" title="Facebook Prefeitura">
+                    <i class="fab fa-facebook"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
+                <div class="header-text">
+                    <h1>Controle de Endemias</h1>
+                    <p>Secretaria Municipal de Saúde - Matinhos/PR</p>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <a href="https://www.instagram.com/secsaudematinhos" target="_blank" class="btn btn-instagram">
+                    <i class="fab fa-instagram"></i> Siga-nos
+                </a>
+                <a href="https://wa.me/554198445XXXX?text=Quero%20fazer%20uma%20den%C3%BAncia" target="_blank" class="btn btn-denuncia">
+                    <i class="fas fa-exclamation-triangle"></i> Denunciar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#inicio"><i class="fas fa-home"></i> Início</a></li>
+            <li><a href="#noticias"><i class="fas fa-newspaper"></i> Notícias</a></li>
+            <li><a href="#prevencao"><i class="fas fa-hand-sparkles"></i> Prevenção</a></li>
+            <li><a href="#galeria"><i class="fas fa-images"></i> Galeria</a></li>
+            <li><a href="#contato"><i class="fas fa-phone-alt"></i> Contato</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Banner -->
+        <section id="inicio" class="hero-banner">
+            <div class="hero-content">
+                <h2>🦟 Juntos Contra o Aedes aegypti</h2>
+                <p>Acompanhe as ações da Vigilância em Saúde e ajude a proteger Matinhos</p>
+            </div>
+        </section>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Agentes Ativos</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏘️</div>
+                <span class="stat-number">15</span>
+                <span class="stat-label">Bairros Atendidos</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Cobertura</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <span class="stat-number">1.200+</span>
+                <span class="stat-label">Visitas/Mês</span>
+            </div>
+        </div>
+
+        <!-- News Section -->
+        <section id="noticias" class="news-section">
+            <h2 class="section-title">📢 Últimas Notícias</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-icon">✅</div>
+                    <p class="news-date">19 de Outubro, 2024</p>
+                    <h3>Mutirão de Limpeza no Tabuleiro</h3>
+                    <p>Sábado teremos grande ação comunitária no bairro Tabuleiro. Participe e ajude a eliminar criadouros do mosquito!</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-icon">💧</div>
+                    <p class="news-date">Atualizado Semanalmente</p>
+                    <h3>Coleta de Resíduos Volumosos</h3>
+                    <p>Confira os pontos fixos de coleta em todo município. Descarte correto previne a dengue, zika e chikungunya.</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-icon">📊</div>
+                    <p class="news-date">Atualização Semanal</p>
+                    <h3>Índices de Infestação</h3>
+                    <p>Acompanhe os índices do Aedes aegypti em Matinhos. Transparência e informação para todos!</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-icon">💉</div>
+                    <p class="news-date">Este Sábado - 8h às 16h30</p>
+                    <h3>Dia D de Vacinação</h3>
+                    <p><strong>Todas as Unidades de Saúde!</strong><br>
+                    ✅ Atualização da caderneta<br>
+                    ✅ Multivacinação<br>
+                    ✅ Proteção para nossas crianças<br><br>
+                    <em>Vacinar é um ato de amor! ❤️</em></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Banner -->
+        <section class="cta-banner">
+            <h2>🫱🏼‍🫲🏽 Seu Papel Faz a Diferença!</h2>
+            <p>Cada morador é essencial na luta contra o mosquito</p>
+            <div class="cta-buttons">
+                <a href="https://wa.me/554198445XXXX?text=Quero%20fazer%20uma%20den%C3%BAncia" target="_blank" class="btn btn-white btn-large">
+                    <i class="fas fa-exclamation-triangle"></i> Fazer Denúncia
+                </a>
+                <a href="https://www.instagram.com/secsaudematinhos" target="_blank" class="btn btn-instagram btn-large">
+                    <i class="fab fa-instagram"></i> Acompanhe no Instagram
+                </a>
+            </div>
+        </section>
+
+        <!-- Prevention Section -->
+        <section id="prevencao" class="news-section">
+            <h2 class="section-title">🛡️ Como Prevenir</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-icon">🏠</div>
+                    <h3>Em Casa</h3>
+                    <p>Elimine água parada em vasos, pneus, garrafas e calhas. Tampe caixas d'água e cisternas adequadamente.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">🌳</div>
+                    <h3>No Quintal</h3>
+                    <p>Mantenha lixeiras tampadas, limpe ralos e não acumule entulho. Vire garrafas de boca para baixo.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">👥</div>
+                    <h3>Na Comunidade</h3>
+                    <p>Participe dos mutirões, denuncie focos e ajude a conscientizar seus vizinhos sobre a prevenção.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">⚠️</div>
+                    <h3>Sintomas</h3>
+                    <p>Febre alta, dores musculares, manchas vermelhas? Procure uma Unidade de Saúde imediatamente!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="galeria" class="news-section">
+            <h2 class="section-title">📸 Galeria de Ações</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-clinic-medical"></i>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1rem; color: #666;">
+                <em>Em breve: Fotos das ações comunitárias e campanhas de prevenção</em>
+            </p>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contato" class="contact-section">
+            <h2 class="section-title">📞 Entre em Contato</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-volume"></i>
+                    </div>
+                    <h4>Telefone</h4>
+                    <a href="tel:08003971610">0800-3971-610</a>
+                    <p>Ramal 839</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>Email</h4>
+                    <a href="mailto:endemiasmatinhos@gmail.com">endemiasmatinhos@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h4>Instagram</h4>
+                    <a href="https://www.instagram.com/secsaudematinhos" target="_blank">@secsaudematinhos</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h4>WhatsApp</h4>
+                    <a href="https://wa.me/554198445XXXX" target="_blank">Enviar Mensagem</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Sobre o Programa</h4>
+                <p>Mobilização comunitária pelo fim dos criadouros do mosquito transmissor da dengue, zika e chikungunya.</p>
+                <p style="margin-top: 1rem;">Vigilância Ambiental em Saúde - Matinhos/PR</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Úteis</h4>
+                <a href="#inicio">Início</a>
+                <a href="#noticias">Notícias</a>
+                <a href="#prevencao">Prevenção</a>
+                <a href="#galeria">Galeria</a>
+                <a href="#contato">Contato</a>
+            </div>
+            <div class="footer-section">
+                <h4>Informações</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Prefeitura de Matinhos</p>
+                <p><i class="fas fa-clock"></i> Seg-Sex: 8h às 17h</p>
+                <p><i class="fas fa-phone"></i> 0800-3971-610</p>
+            </div>
+            <div class="footer-section">
+                <h4>Redes Sociais</h4>
+                <p>Siga a Secretaria de Saúde:</p>
+                <div style="font-size: 2rem; margin-top: 1rem;">
+                    <a href="https://www.instagram.com/secsaudematinhos" target="_blank" style="display: inline; margin-right: 1rem;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/prefsmatinhos" target="_blank" style="display: inline;">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Secretaria Municipal de Saúde de Matinhos - Todos os direitos reservados</p>
+            <p style="margin-top: 0.5rem;">Desenvolvido com ❤️ para o bem da comunidade</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add active class to nav links
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.background = '';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.background = 'var(--accent)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
